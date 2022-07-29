@@ -8,4 +8,4 @@ This is a demo site for testing/demo problems.
 ## Problem: Quarto tables not passing html links
 
 * [working RMD file](quarto_table/materials-rmd.html)
-* [not-working QMD file](quarto_table/materials-qmd.html)
+* [not-working QMD file](quarto_table/materials-quarto.html)

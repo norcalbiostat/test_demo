@@ -11,7 +11,7 @@
 
 
 
-<title>Materials</title>
+<title>RMD example</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -585,12 +585,31 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Materials</h1>
+<h1 class="title toc-ignore">RMD example</h1>
 
 </div>
 
 
-Simple table manually generated
+<pre class="r"><code>library(dplyr); library(knitr); library(kableExtra); </code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre class="r"><code>library(tidyr); library(stringr)
+options(knitr.kable.NA = &#39;&#39;)</code></pre>
+<p>Simple table manually generated</p>
+<pre class="r"><code>df &lt;- data.frame(a = c(1, 2), 
+                 b = c(&quot;[CRAN](https://cran.r-project.org)&quot;, &quot;https://github.com&quot;))
+knitr::kable(df)</code></pre>
 <table>
 <thead>
 <tr>
@@ -621,7 +640,22 @@ b
 </tr>
 </tbody>
 </table>
-My example of an auto generated name
+<p>My example of an auto generated name</p>
+<pre class="r"><code>hw   &lt;- data.frame(filenames = paste0(&#39;hw/&#39;, list.files(&quot;hw&quot;, pattern=&#39;template|*.pdf|*.html|*.docx&#39;)))
+
+out.hw &lt;- hw %&gt;% mutate(name = gsub(&quot;hw/|_template&quot;,  &quot;&quot;, filenames), 
+                          type = str_extract(hw$filenames,&quot;.{3}$&quot;),
+                          type = ifelse(type==&quot;tml&quot;, &quot;html&quot;, type),
+                          type = ifelse(type==&quot;ocx&quot;, &quot;docx&quot;, type),
+                          nam = gsub(&quot;.html|.pdf|.Rmd|.docx&quot;, &quot;&quot;, name), 
+                          link = sprintf(&quot;[%s](%s)&quot;,type, filenames))
+
+x = out.hw %&gt;% select(link, type, nam) %&gt;% 
+    reshape2::dcast(nam~type, value.var=&quot;link&quot;) %&gt;% 
+    kable(format=&quot;html&quot;) %&gt;%
+    kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;, &quot;responsive&quot; ,&quot;bordered&quot;), 
+                  full_width=FALSE,  position = &quot;left&quot;)
+gsub(&quot;&lt;thead&gt;.*&lt;/thead&gt;&quot;, &quot;&quot;, x)</code></pre>
 <table class="table table-striped table-hover table-condensed table-responsive table-bordered" style="width: auto !important; ">
 <tbody>
 <tr>
@@ -653,6 +687,7 @@ hw01_data_entry
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 4.2.1 (2022-06-23 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19043)

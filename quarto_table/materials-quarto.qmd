@@ -3,8 +3,7 @@ title: "QMD example"
 format: html
 ---
 
-```{r, message=FALSE, warning=FALSE, echo=FALSE}
-knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+```{r}
 library(dplyr); library(knitr); library(kableExtra); 
 library(tidyr); library(stringr)
 options(knitr.kable.NA = '')
